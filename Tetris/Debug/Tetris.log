@@ -1,0 +1,5 @@
+﻿  Block.cpp
+D:\C++\Tetris\Tetris\Block.cpp(8,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\C++\Tetris\Tetris\Block.cpp(87,90): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\C++\Tetris\Tetris\Block.cpp(87,59): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Tetris.vcxproj -> D:\C++\Tetris\Debug\Tetris.exe
