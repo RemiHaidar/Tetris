@@ -8,6 +8,10 @@
 class Game
 {
 protected:
+	sf::RectangleShape b;
+	//Grid
+	int grid[25][45] = { 0 };
+	int speed = 0;
 	// Different colors
 	sf::Color colors[6] = { 
 		sf::Color{144,255,144}, 
@@ -47,8 +51,6 @@ protected:
 			{ '1', '1', '1' },
 			{ '0', '1', '0' }	}
 	};
-	//Grid
-	int grid[25][45] = { 0 };
 public:
 	Game();
 	void DrawGrid(sf::RenderWindow&);

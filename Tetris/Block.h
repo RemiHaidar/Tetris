@@ -10,10 +10,10 @@
 class Block : public Game
 {
 private:
-	int x, y = 0;
+	int x, y;
 	char bitmap[3][3];
-	int speed = 0;
 	int colorIndex;
+	bool placed = false;
 	sf::RectangleShape block;
 public:
 	static std::vector<Block*> activeBlocks;
@@ -24,5 +24,7 @@ public:
 	void Rotate();
 	void DrawBlock(sf::RenderWindow&);
 	void Collide();
-	void FillArray();
+	bool SafeToMove(std::string);
+	void FillGrid();
+	void MarkBlockPos(sf::RenderWindow&, int, int);
 };

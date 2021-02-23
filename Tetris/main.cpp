@@ -30,6 +30,8 @@ int main()
         block.CreateBlocks();
         block.Move();
         block.Fall();
+        block.Collide();
+        block.DrawGrid(window);
         block.DrawBlock(window);
 
         window.display();
