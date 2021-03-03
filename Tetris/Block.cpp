@@ -1,17 +1,16 @@
 #include "Block.h"
 
-Block* Block::blocks[2];
-
 Block::Block() {
 	// Random seed
 	srand(unsigned int(time(0)));
 
 	// Set block attributes
-	block.setFillColor(colors[rand() % 6]);
+	colorIndex = rand() % 10;
+	block.setFillColor(colors[colorIndex]);
 	block.setSize(sf::Vector2f(20.0f, 20.0f));
 
 	// Assigns random shape
-	int temp = rand() % 7;
+	int temp = rand() % 9;
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
 			bitmap[i][j] = shapes[temp][i][j];
@@ -23,24 +22,14 @@ Block::Block() {
 	y = 0;
 }
 
-
-void Block::CreateBlocks()
-{
-	// Assigns new block if block is placed
-	if (blocks[0] == NULL)
-	{
-		blocks[0] = blocks[1];
-		blocks[1] = new Block();
-	}
-}
-
-
 void Block::Fall()
 {
-	speed++;
-	if (speed == 15) {
-		y += 20;
-		speed = 0;
+	if (SafeToMove("down") && !blockIsPlaced) {
+		speed++;
+		if (speed == 15) {
+			y += 20;
+			speed = 0;
+		}
 	}
 }
 
@@ -54,7 +43,7 @@ void Block::Move()
 		x -= 20;
 		// std::cout << blocks[0]->x << std::endl;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && SafeToMove("down")) {
 		y += 20;
 		// std::cout << y << std::endl;
 	}
@@ -67,28 +56,39 @@ bool Block::SafeToMove(std::string direction)
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				if (bitmap[i][j] != '0') {
-					if (grid[y / 20 + i][(x - 120) / 20 + j] != 0) {
+					if (grid[y / 20 + i][(x - 120) / 20 + j] != -1) {
 						return false;
 					}
 				}
 			}
 		}
-		return true;
 	}
 	else if (direction == "left") {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				if (bitmap[i][j] != '0') {
-					if (grid[y / 20 + i][(x - 140) / 20 + j - 1] != 0) {
+					if (grid[y / 20 + i][(x - 140) / 20 + j - 1] != -1) {
 						return false;
 					}
 				}
 			}
 		}
-		return true;
+	}
+	else if (direction == "down")
+	{
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (bitmap[i][j] != '0') {
+					if (grid[y / 20 + i + 1][(x - 140) / 20 + j] != -1) {
+						blockIsPlaced = true;
+						return false;
+					}
+				}
+			}
+		}
 	}
 
-	return false;
+	return true;
 }
 
 
@@ -109,7 +109,7 @@ void Block::Rotate()
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
 			if (tempBitmap[i][j] != '0') {
-				if (grid[y / 20 + i][(x - 140) / 20 + j] != 0) {
+				if (grid[y / 20 + i][(x - 140) / 20 + j] != -1) {
 					safeToRotate = false;
 				}
 			}
@@ -138,7 +138,17 @@ void Block::DrawBlock(sf::RenderWindow& w)
 	}
 }
 
-void Block::PlaceOnGrid()
+void Block::PlaceOnGrid(std::vector<Block*>& v)
 {
-
+	if (blockIsPlaced) {
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (bitmap[i][j] != '0') {
+					std::cout << colorIndex << std::endl;
+					grid[y / 20 + i][(x - 140) / 20 + j] = colorIndex;
+				}
+			}
+		}
+		v.erase(v.begin());
+	}
 }

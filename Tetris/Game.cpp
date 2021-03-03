@@ -1,18 +1,18 @@
 #include "Game.h"
 
+int Game::grid[46][26];
+
 Game::Game() {
-	// Set grid limits
+
+	// Set grid side limits
 	for (int i = 0; i < 46; i++) {
-		grid[i][25] = 1;
-		grid[i][0] = 1;
+		grid[i][25] = 6;
+		grid[i][0] = 6;
 	}
 
+	// Set grid bottom limit
 	for (int i = 0; i < 26; i++) {
-		grid[45][i] = 1;
-	}
-
-	for (int i = 20; i < 25; i++) {
-		grid[i][15] = 4;
+		grid[45][i] = 6;
 	}
 }
 
@@ -20,12 +20,21 @@ void Game::DrawGrid(sf::RenderWindow& w)
 {
 	for (int i = 0; i < 46; i++) {
 		for (int j = 0; j < 26; j++) {
-			if (grid[i][j] != 0) {
+			if (grid[i][j] != -1) {
 				b.setFillColor(colors[grid[i][j]]);
 				b.setSize(sf::Vector2f(20.0f, 20.0f));
-				b.setPosition(j * 20 + 140, i * 20);
+				b.setPosition(j * 20.0f + 140, i * 20.0f);
 				w.draw(b);
 			}
+		}
+	}
+}
+
+void Game::InitializeGrid()
+{
+	for (int i = 0; i < 46; i++) {
+		for (int j = 0; j < 26; j++) {
+			grid[i][j] = -1;
 		}
 	}
 }

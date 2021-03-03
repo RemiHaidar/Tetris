@@ -12,15 +12,14 @@ private:
 	int x = 0, y = 0;
 	char bitmap[3][3];
 	int colorIndex = 0;
+	bool blockIsPlaced = false;
 	sf::RectangleShape block;
 public:
-	static Block* blocks[2];
 	Block();
-	void CreateBlocks();
 	void Fall();
 	void Move();
 	void Rotate();
 	void DrawBlock(sf::RenderWindow&);
 	bool SafeToMove(std::string);
-	void PlaceOnGrid();
+	void PlaceOnGrid(std::vector<Block*>&);
 };

@@ -1,15 +1,26 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+// #include <SFML/Audio.hpp>
 
 #include "Block.h"
 
 sf::RenderWindow window(sf::VideoMode(800, 900), "Tetris", sf::Style::Close);
 
+Block block;
+
 int main()
 {
-    window.setFramerateLimit(20);
+    // sf::Music music;
 
-    Block block;
+    srand(unsigned int(time(0)));
+
+    std::vector<Block*> blocks;
+    
+    blocks.push_back(new Block());
+
+    blocks[0]->InitializeGrid();
+
+    window.setFramerateLimit(20);
 
     while (window.isOpen())
     {
@@ -21,17 +32,22 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
             if (event.type != sf::Event::KeyReleased && event.key.code == sf::Keyboard::W)
-                block.Rotate();
+                blocks[0]->Rotate();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                 exit(0);
         }
 
-        block.CreateBlocks();
-        block.Move();
-        block.Fall();
-        block.DrawGrid(window);
-        block.DrawLimits(window);
-        block.DrawBlock(window);
+        // Assigns new block if block is placed
+        if (blocks.size() < 2)
+            blocks.push_back(new Block());
+
+        blocks[0]->Move();
+        blocks[0]->Fall();
+        blocks[0]->PlaceOnGrid(blocks);
+        blocks[0]->DrawLimits(window);
+        blocks[0]->DrawBlock(window);
+        blocks[0]->DrawGrid(window);
+        // blocks[0]->PrintGrid();
 
         window.display();
 
