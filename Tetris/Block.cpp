@@ -144,7 +144,6 @@ void Block::PlaceOnGrid(std::vector<Block*>& v)
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				if (bitmap[i][j] != '0') {
-					std::cout << colorIndex << std::endl;
 					grid[y / 20 + i][(x - 140) / 20 + j] = colorIndex;
 				}
 			}

@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-// #include <SFML/Audio.hpp>
 
 #include "Block.h"
 
@@ -10,14 +9,10 @@ Block block;
 
 int main()
 {
-    // sf::Music music;
-
     srand(unsigned int(time(0)));
 
     std::vector<Block*> blocks;
-    
     blocks.push_back(new Block());
-
     blocks[0]->InitializeGrid();
 
     window.setFramerateLimit(20);
@@ -47,7 +42,7 @@ int main()
         blocks[0]->DrawLimits(window);
         blocks[0]->DrawBlock(window);
         blocks[0]->DrawGrid(window);
-        // blocks[0]->PrintGrid();
+        blocks[0]->RemoveLineOfBlocks();
 
         window.display();
 

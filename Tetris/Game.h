@@ -71,4 +71,5 @@ public:
 	void PrintGrid();
 	void DrawLimits(sf::RenderWindow&);
 	void InitializeGrid();
+	void RemoveLineOfBlocks();
 };

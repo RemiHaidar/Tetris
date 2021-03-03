@@ -63,3 +63,40 @@ void Game::DrawLimits(sf::RenderWindow& w)
 	w.draw(leftLines);
 	w.draw(rightLines);
 }
+
+void Game::RemoveLineOfBlocks()
+{
+	int tempGrid[46][26];
+
+	for (int i = 0; i < 45; i++) {
+		bool lineIsFull = true;
+		for (int j = 0; j < 26; j++) {
+			if (grid[i][j] == -1)
+				lineIsFull = false;
+		}
+		if (lineIsFull)
+		{
+			for (int k = 0; k < 26; k++) {
+				grid[i][k] = -1;
+			}
+
+			for (int x = 0; x < 45; x++) {
+				for (int y = 0; y < 26; y++) {
+					tempGrid[x][y] = grid[x][y];
+				}
+			}
+
+			for (int x = 0; x < i; x++) {
+				for (int y = 0; y < 26; y++) {
+					tempGrid[x + 1][y] = grid[x][y];
+				}
+			}
+
+			for (int x = 0; x < 45; x++) {
+				for (int y = 0; y < 26; y++) {
+					grid[x][y] = tempGrid[x][y];
+				}
+			}
+		}
+	}
+}
