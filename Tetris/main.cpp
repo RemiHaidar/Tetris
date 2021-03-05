@@ -28,6 +28,8 @@ int main()
                 window.close();
             if (event.type != sf::Event::KeyReleased && event.key.code == sf::Keyboard::W)
                 blocks[0]->Rotate();
+            if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space)
+                blocks[0]->DropBlock();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                 exit(0);
         }

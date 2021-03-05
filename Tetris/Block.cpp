@@ -46,6 +46,19 @@ void Block::Move()
 	}
 }
 
+void Block::DropBlock()
+{
+	while (SafeToMove("down"))
+	{
+		y += 20;
+	}
+}
+
+void Block::Preview(sf::RenderWindow& w)
+{
+
+}
+
 
 bool Block::SafeToMove(std::string direction)
 {

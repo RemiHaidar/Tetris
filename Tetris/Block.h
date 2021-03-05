@@ -14,6 +14,7 @@ private:
 	int colorIndex = 0;
 	bool blockIsPlaced = false;
 	sf::RectangleShape block;
+	sf::RectangleShape previewBlock;
 public:
 	Block();
 	void Fall();
@@ -23,4 +24,6 @@ public:
 	bool SafeToMove(std::string);
 	void PlaceOnGrid(std::vector<Block*>&);
 	void DisplayNextBlock(std::vector<Block*>& , sf::RenderWindow&);
+	void DropBlock();
+	void Preview(sf::RenderWindow&);
 };
