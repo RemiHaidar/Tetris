@@ -18,7 +18,7 @@ Block::Block() {
 	}
 
 	// Assigns coords
-	x = 380;
+	x = 200;
 	y = 0;
 }
 
@@ -37,15 +37,12 @@ void Block::Move()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && SafeToMove("right")) {
 		x += 20;
-		// std::cout << x << std::endl;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && SafeToMove("left")) {
 		x -= 20;
-		// std::cout << blocks[0]->x << std::endl;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && SafeToMove("down")) {
 		y += 20;
-		// std::cout << y << std::endl;
 	}
 }
 
@@ -56,7 +53,7 @@ bool Block::SafeToMove(std::string direction)
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				if (bitmap[i][j] != '0') {
-					if (grid[y / 20 + i][(x - 120) / 20 + j] != -1) {
+					if (grid[y / 20 + i][x / 20 + j] != -1) {
 						return false;
 					}
 				}
@@ -67,19 +64,18 @@ bool Block::SafeToMove(std::string direction)
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				if (bitmap[i][j] != '0') {
-					if (grid[y / 20 + i][(x - 140) / 20 + j - 1] != -1) {
+					if (grid[y / 20 + i][(x - 20) / 20 + j - 1] != -1) {
 						return false;
 					}
 				}
 			}
 		}
 	}
-	else if (direction == "down")
-	{
+	else if (direction == "down") {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				if (bitmap[i][j] != '0') {
-					if (grid[y / 20 + i + 1][(x - 140) / 20 + j] != -1) {
+					if (grid[y / 20 + i + 1][(x - 20) / 20 + j] != -1) {
 						blockIsPlaced = true;
 						return false;
 					}
@@ -87,7 +83,6 @@ bool Block::SafeToMove(std::string direction)
 			}
 		}
 	}
-
 	return true;
 }
 
@@ -109,7 +104,7 @@ void Block::Rotate()
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
 			if (tempBitmap[i][j] != '0') {
-				if (grid[y / 20 + i][(x - 140) / 20 + j] != -1) {
+				if (grid[y / 20 + i][(x - 20) / 20 + j] != -1) {
 					safeToRotate = false;
 				}
 			}
@@ -144,10 +139,31 @@ void Block::PlaceOnGrid(std::vector<Block*>& v)
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				if (bitmap[i][j] != '0') {
-					grid[y / 20 + i][(x - 140) / 20 + j] = colorIndex;
+					grid[y / 20 + i][(x - 20) / 20 + j] = colorIndex;
 				}
 			}
 		}
 		v.erase(v.begin());
+		score++;
 	}
+}
+
+void Block::DisplayNextBlock(std::vector<Block*>& v, sf::RenderWindow& w)
+{
+	sf::RectangleShape rectangle(sf::Vector2f(167.f, 120.f));
+
+	rectangle.setPosition(427, 120);
+	rectangle.setFillColor(sf::Color{255,255,255,0});
+	rectangle.setOutlineThickness(2);
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			if (v[1]->bitmap[i][j] != '0') {
+				v[1]->block.setPosition(480 + (j * 20.0f), 160 + (i * 20.0f));
+				w.draw(v[1]->block);
+			}
+		}
+	}
+
+	w.draw(rectangle);
 }

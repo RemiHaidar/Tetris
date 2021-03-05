@@ -3,7 +3,7 @@
 
 #include "Block.h"
 
-sf::RenderWindow window(sf::VideoMode(800, 900), "Tetris", sf::Style::Close);
+sf::RenderWindow window(sf::VideoMode(600, 600), "Tetris", sf::Style::Close);
 
 Block block;
 
@@ -38,14 +38,16 @@ int main()
 
         blocks[0]->Move();
         blocks[0]->Fall();
+        blocks[0]->DisplayNextBlock(blocks, window);
         blocks[0]->PlaceOnGrid(blocks);
-        blocks[0]->DrawLimits(window);
         blocks[0]->DrawBlock(window);
         blocks[0]->DrawGrid(window);
+        blocks[0]->DrawLimits(window);
+        blocks[0]->DrawText(window);
         blocks[0]->RemoveLineOfBlocks();
+        blocks[0]->Lose();
 
         window.display();
-
     }
 
     return 0;

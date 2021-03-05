@@ -22,4 +22,5 @@ public:
 	void DrawBlock(sf::RenderWindow&);
 	bool SafeToMove(std::string);
 	void PlaceOnGrid(std::vector<Block*>&);
+	void DisplayNextBlock(std::vector<Block*>& , sf::RenderWindow&);
 };

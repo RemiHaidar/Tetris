@@ -10,8 +10,8 @@ class Game
 protected:
 	// Rectangle used to draw grid
 	sf::RectangleShape b;
-	//Grid : 45 being the number of rows and 26 the number of columns
-	static int grid[46][26];
+	//Grid : 46 being the number of rows and 26 the number of columns
+	static int grid[29][20];
 	// Fall speed
 	int speed = 0;
 	// Different colors
@@ -61,10 +61,14 @@ protected:
 			{ '0', '1', '1' },
 			{ '0', '1', '1' }	},
 
-		{	{ '1', '0', '0' },
-			{ '1', '1', '0' },
-			{ '0', '1', '0' }	}
+		{	{ '1', '1', '0' },
+			{ '1', '0', '0' },
+			{ '1', '1', '0' }	}
 	};
+	sf::Font font; 
+	sf::Text text;
+
+	static int score;
 public:
 	Game();
 	void DrawGrid(sf::RenderWindow&);
@@ -72,4 +76,6 @@ public:
 	void DrawLimits(sf::RenderWindow&);
 	void InitializeGrid();
 	void RemoveLineOfBlocks();
+	void Lose();
+	void DrawText(sf::RenderWindow&);
 };
