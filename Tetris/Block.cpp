@@ -20,6 +20,11 @@ Block::Block() {
 	// Assigns coords
 	x = 200;
 	y = 0;
+
+	previewBlock.setSize(sf::Vector2f(20.0f, 20.0f));
+	previewBlock.setFillColor(sf::Color(255, 0, 0, 50));
+	previewBlock.setOutlineThickness(1);
+	previewBlock.setOutlineColor(sf::Color(255, 0, 0));
 }
 
 void Block::Fall()
@@ -54,13 +59,43 @@ void Block::DropBlock()
 	}
 }
 
+
 void Block::Preview(sf::RenderWindow& w)
 {
+	int previewX = x, previewY = y;
+	bool temp = false;
 
+	while (true)
+	{
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (bitmap[i][j] != '0') {
+					if (grid[previewY / 20 + i + 1][(previewX - 20) / 20 + j] != -1) {
+						temp = true;
+					}
+				}
+			}
+			
+		}
+
+		if (!temp)
+			previewY += 20;
+		else
+			break;
+	}
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			if (bitmap[i][j] != '0') {
+				previewBlock.setPosition(previewX + (j * 20.0f), previewY + (i * 20.0f));
+				w.draw(previewBlock);
+			}
+		}
+	}
 }
 
 
-bool Block::SafeToMove(std::string direction)
+bool Block::SafeToMove(const std::string& direction)
 {
 	if (direction == "right") {
 		for (int i = 0; i < 3; i++) {

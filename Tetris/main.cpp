@@ -41,6 +41,7 @@ int main()
         blocks[0]->Move();
         blocks[0]->Fall();
         blocks[0]->DisplayNextBlock(blocks, window);
+        blocks[0]->Preview(window);
         blocks[0]->PlaceOnGrid(blocks);
         blocks[0]->DrawBlock(window);
         blocks[0]->DrawGrid(window);

@@ -15,13 +15,14 @@ private:
 	bool blockIsPlaced = false;
 	sf::RectangleShape block;
 	sf::RectangleShape previewBlock;
+	// int previewX, previewY;
 public:
 	Block();
 	void Fall();
 	void Move();
 	void Rotate();
 	void DrawBlock(sf::RenderWindow&);
-	bool SafeToMove(std::string);
+	bool SafeToMove(const std::string&);
 	void PlaceOnGrid(std::vector<Block*>&);
 	void DisplayNextBlock(std::vector<Block*>& , sf::RenderWindow&);
 	void DropBlock();
