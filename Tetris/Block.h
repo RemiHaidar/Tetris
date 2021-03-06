@@ -15,7 +15,6 @@ private:
 	bool blockIsPlaced = false;
 	sf::RectangleShape block;
 	sf::RectangleShape previewBlock;
-	// int previewX, previewY;
 public:
 	Block();
 	void Fall();

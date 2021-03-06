@@ -118,6 +118,8 @@ void Game::RemoveLineOfBlocks()
 					grid[x][y] = tempGrid[x][y];
 				}
 			}
+
+			score += 5;
 		}
 	}
 }

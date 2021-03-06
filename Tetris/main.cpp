@@ -1,14 +1,22 @@
 #include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
 
 #include "Block.h"
 
 sf::RenderWindow window(sf::VideoMode(600, 600), "Tetris", sf::Style::Close);
 
 Block block;
+bool preview = true;
 
 int main()
 {
+    sf::Music music;
+
+    if (!music.openFromFile("music.wav"))
+        std::cout << "Failed to load music" << std::endl;
+
+    music.play();
+
     srand(unsigned int(time(0)));
 
     std::vector<Block*> blocks;
@@ -31,7 +39,7 @@ int main()
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space)
                 blocks[0]->DropBlock();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-                exit(0);
+                exit(0);                
         }
 
         // Assigns new block if block is placed

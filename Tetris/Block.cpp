@@ -22,7 +22,7 @@ Block::Block() {
 	y = 0;
 
 	previewBlock.setSize(sf::Vector2f(20.0f, 20.0f));
-	previewBlock.setFillColor(sf::Color(255, 0, 0, 50));
+	previewBlock.setFillColor(sf::Color(255, 0, 0, 25));
 	previewBlock.setOutlineThickness(1);
 	previewBlock.setOutlineColor(sf::Color(255, 0, 0));
 }
