@@ -5,6 +5,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+class Block;
+
 class Game
 {
 protected:
@@ -67,7 +69,7 @@ protected:
 	};
 	sf::Font font; 
 	sf::Text text;
-
+	int rgb[3] = { 0 }, colorSpeed = 0;
 	static int score;
 public:
 	Game();
@@ -76,6 +78,7 @@ public:
 	void DrawLimits(sf::RenderWindow&);
 	void InitializeGrid();
 	void RemoveLineOfBlocks();
-	void Lose();
+	void Lose(bool& b, std::vector<Block*>&);
 	void DrawText(sf::RenderWindow&);
+	void MainMenu(sf::RenderWindow&);
 };

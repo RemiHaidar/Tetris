@@ -1,62 +1,72 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+#include "Button.h"
 #include "Block.h"
 
 sf::RenderWindow window(sf::VideoMode(600, 600), "Tetris", sf::Style::Close);
 
+Button play(200.0f,250.0f, 200.0f, 40.0f, "Play", sf::Color(107,68,35), sf::Color(255,255,0));
+Button quit(200.0f, 310.0f, 200.0f, 40.0f, "Quit", sf::Color(107, 68, 35), sf::Color(255, 255, 0));
 Block block;
-bool preview = true;
+
+sf::Music music;
+sf::Event event;
+
+std::vector<Block*> blocks;
+bool running = false;
 
 int main()
 {
-    sf::Music music;
+    srand(unsigned int(time(0)));
+    window.setFramerateLimit(20);
 
-    if (!music.openFromFile("music.wav"))
-        std::cout << "Failed to load music" << std::endl;
-
+    music.openFromFile("music.wav");
     music.play();
 
-    srand(unsigned int(time(0)));
-
-    std::vector<Block*> blocks;
-    blocks.push_back(new Block());
-    blocks[0]->InitializeGrid();
-
-    window.setFramerateLimit(20);
+    block.InitializeGrid();
 
     while (window.isOpen())
     {
         window.clear();
 
-        sf::Event event;
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-            if (event.type != sf::Event::KeyReleased && event.key.code == sf::Keyboard::W)
+            if (event.type != sf::Event::KeyReleased && event.key.code == sf::Keyboard::W && running)
                 blocks[0]->Rotate();
-            if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space)
+            if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space && running)
                 blocks[0]->DropBlock();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-                exit(0);                
+                exit(0);
         }
 
         // Assigns new block if block is placed
         if (blocks.size() < 2)
             blocks.push_back(new Block());
+        
 
-        blocks[0]->Move();
-        blocks[0]->Fall();
-        blocks[0]->DisplayNextBlock(blocks, window);
-        blocks[0]->Preview(window);
-        blocks[0]->PlaceOnGrid(blocks);
-        blocks[0]->DrawBlock(window);
-        blocks[0]->DrawGrid(window);
-        blocks[0]->DrawLimits(window);
-        blocks[0]->DrawText(window);
-        blocks[0]->RemoveLineOfBlocks();
-        blocks[0]->Lose();
+        if (running) {
+
+            blocks[0]->Move();
+            blocks[0]->Fall();
+            blocks[0]->DisplayNextBlock(blocks, window);
+            blocks[0]->Preview(window);
+            blocks[0]->PlaceOnGrid(blocks);
+            blocks[0]->DrawBlock(window);
+            blocks[0]->DrawGrid(window);
+            blocks[0]->DrawLimits(window);
+            blocks[0]->DrawText(window);
+            blocks[0]->RemoveLineOfBlocks();
+            blocks[0]->Lose(running, blocks);
+        }
+        else
+        {
+            blocks[0]->MainMenu(window);
+            play.main(window, running);
+            quit.main(window, running);
+        }
 
         window.display();
     }

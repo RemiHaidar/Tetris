@@ -18,9 +18,6 @@ Game::Game() {
 
 	font.loadFromFile("arial.ttf");
 	text.setFont(font);
-	text.setCharacterSize(24);
-	text.setStyle(sf::Text::Bold);
-	text.setFillColor(sf::Color::White);
 }
 
 void Game::DrawGrid(sf::RenderWindow& w)
@@ -65,8 +62,11 @@ void Game::DrawLimits(sf::RenderWindow& w)
 	line[1].position = sf::Vector2f(440, 40);
 	line[1].color = sf::Color{ 255,0,0 };
 
-	text.setString("LIMIT");
+	text.setCharacterSize(24);
+	text.setStyle(sf::Text::Bold);
+	text.setFillColor(sf::Color::White);
 	text.setPosition(sf::Vector2f(470, 25));
+	text.setString("LIMIT");
 
 	w.draw(text);
 	w.draw(line);
@@ -74,8 +74,11 @@ void Game::DrawLimits(sf::RenderWindow& w)
 
 void Game::DrawText(sf::RenderWindow& w)
 {
-	text.setString("NEXT BLOCK");
+	text.setCharacterSize(24);
+	text.setStyle(sf::Text::Bold);
+	text.setFillColor(sf::Color::White);
 	text.setPosition(sf::Vector2f(430, 120));
+	text.setString("NEXT BLOCK");
 
 	w.draw(text);
 
@@ -124,10 +127,38 @@ void Game::RemoveLineOfBlocks()
 	}
 }
 
-void Game::Lose()
+void Game::Lose(bool& b,std::vector<Block*>& v)
 {
 	for (int i = 1; i < 19; i++) {
 		if (grid[1][i] != -1)
-			exit(0);
+		{
+			b = false;
+			for (int i = 0; i < 29; i++) {
+				for (int j = 0; j < 20; j++) {
+					grid[i][j] = -1;
+				}
+			}
+			score = 0;
+			v.clear();
+		}
 	}
+}
+
+void Game::MainMenu(sf::RenderWindow& w)
+{
+	text.setString("Tetris");
+	text.setCharacterSize(50);
+	text.setPosition(sf::Vector2f(235, 120));
+
+	if (colorSpeed == 6 || colorSpeed == 0) {
+		for (int i = 0; i < 3; i++)
+		{
+			rgb[i] = rand() % 205 + 50;
+		}
+		colorSpeed = 0;
+	}
+
+	colorSpeed++;
+	text.setFillColor(sf::Color(rgb[0], rgb[1], rgb[2]));
+	w.draw(text);
 }
